@@ -43,7 +43,14 @@ header h2 {
 	margin-bottom: 25px;
 }
 
-
+body h2 {
+  font-size: 36px;
+  
+  font-weight: 800;
+  color: #4a5568;
+  letter-spacing: 2px;
+	margin-bottom: 25px;
+}
 
 .student-search {
   display: flex;

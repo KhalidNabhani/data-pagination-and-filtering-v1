@@ -26,28 +26,32 @@ function showPage (list, page) {
    // this function returns collections of elements pointing to first index 
    
    // clean innerHTML 
-   studentList.innerHTML ='';   
+   studentList.innerHTML ="";   
 
    // this variable contains html elements 
    let studentItems =''; 
-
-   for (let i = startIndex; i < endIndex; i++){
-      let student = list[i];
-      if (i < list.length){
-         studentItems +=`<li class="student-item cf">
-            <div class="student-details">
-               <img class="avatar" src= ${student.picture.large} alt="Profile Picture">
-               <h3>${student.name.first} ${student.name.last}</h3>
-               <span class="email">${student.email} </span>
-            </div>
-         <div class="joined-details">
-            <span class="date">${student.registered.date}</span>
-         </div>
-      </li>`;
+   if (list.length === 0){
+      studentList.innerHTML="";
+      studentList.insertAdjacentHTML('beforeend', '<h2>No results found </h2>');
+   } else {
+      for (let i = startIndex; i < endIndex; i++){
+         let student = list[i];
+          if (i < list.length){
+            studentItems +=`<li class="student-item cf">
+               <div class="student-details">
+                <img class="avatar" src= ${student.picture.large} alt="Profile Picture">
+                <h3>${student.name.first} ${student.name.last}</h3>
+                  <span class="email">${student.email} </span>
+               </div>
+            <div class="joined-details">
+             <span class="date">${student.registered.date}</span>
+          </div>
+         </li>`;
       }
-   }
-   studentList.insertAdjacentHTML('beforeend', studentItems);
+    }
+      studentList.insertAdjacentHTML('beforeend', studentItems);
 
+   }
 }
 /*
 **********************************************************************
@@ -66,23 +70,20 @@ function addPagination (list){
    
 
    linkList.innerHTML ='';
-
    let buttonItems="";
    if (numberOfPages >= 1){
-
       for (i=1; i <= numberOfPages; i++){ 
          buttonItems +=`<li><button type="button">${i}</button></li>`;
       }
+      linkList.insertAdjacentHTML('beforeend', buttonItems);
+   
+      let buttonActive = document.querySelector(".link-list button");
+      buttonActive.className = "active";
    }
-   linkList.insertAdjacentHTML('beforeend', buttonItems);
-   //document.getElementsByTagName("button").className ='active';
-   
-   let buttonActive = document.querySelector(".link-list button");
-   
-   buttonActive.className = "active";
    
 
    showPage(list, 1);
+
    linkList.addEventListener("click", (e) => {
       let clickedButton = e.target;
       if (clickedButton.tagName === "BUTTON"){
@@ -132,7 +133,7 @@ Search Function return SearchedList
 function searchFunc(searchString){
    
   //searchedWord = document.querySelector("#search").value; 
-  console.log(searchString); 
+  
   searchedList=[];  
   for(let std= 0; std < data.length; std++){
    
@@ -143,7 +144,7 @@ function searchFunc(searchString){
 
     if (fullName.includes(searchString)){  
       searchedList.push(data[std]);
-      console.log(searchedList)
+      
       }
    }
   return searchedList;
@@ -158,8 +159,6 @@ function searchFunc(searchString){
 // Call functions
 searchBar();      // insert search bar
 addPagination(data); // Display all students with pagination buttons and mechanism 
-
-
 
 header.addEventListener("keyup", (e)=> {  // listener for search bar 
   addPagination(searchFunc(e.target.value));
