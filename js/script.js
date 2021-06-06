@@ -68,8 +68,11 @@ function addPagination (list){
    linkList.innerHTML ='';
 
    let buttonItems="";
-   for (i=1; i <= numberOfPages; i++){
-     buttonItems +=`<li><button type="button">${i}</button></li>`;
+   if (numberOfPages >= 1){
+
+      for (i=1; i <= numberOfPages; i++){ 
+         buttonItems +=`<li><button type="button">${i}</button></li>`;
+      }
    }
    linkList.insertAdjacentHTML('beforeend', buttonItems);
    //document.getElementsByTagName("button").className ='active';
@@ -79,7 +82,7 @@ function addPagination (list){
    buttonActive.className = "active";
    
 
-
+   showPage(list, 1);
    linkList.addEventListener("click", (e) => {
       let clickedButton = e.target;
       if (clickedButton.tagName === "BUTTON"){
@@ -129,16 +132,18 @@ Search Function return SearchedList
 function searchFunc(searchString){
    
   //searchedWord = document.querySelector("#search").value; 
-  console.log(searchedWord);  
+  console.log(searchString); 
+  searchedList=[];  
   for(let std= 0; std < data.length; std++){
-    searchedList=[];
+   
     let fullName ="";
     fullName =data[std].name.first;
     fullName += " ";
     fullName += data[std].name.last;
 
-    if (fullName.includes(searchedWord)){  
+    if (fullName.includes(searchString)){  
       searchedList.push(data[std]);
+      console.log(searchedList)
       }
    }
   return searchedList;
@@ -151,10 +156,11 @@ function searchFunc(searchString){
 
 
 // Call functions
-searchBar();
-showPage(data, 1);
-addPagination(data);
+searchBar();      // insert search bar
+addPagination(data); // Display all students with pagination buttons and mechanism 
 
-header.addEventListener("keyup", (e)=> {
-  addPagination(searchFunc( searchedWord= e.target.value));
+
+
+header.addEventListener("keyup", (e)=> {  // listener for search bar 
+  addPagination(searchFunc(e.target.value));
 });
