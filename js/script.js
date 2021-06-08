@@ -142,7 +142,7 @@ function searchFunc(searchString){
     fullName += " ";
     fullName += data[std].name.last;
 
-    if (fullName.includes(searchString)){  
+    if (fullName.toLowerCase().includes(searchString.toLowerCase())){  
       searchedList.push(data[std]);
       
       }
